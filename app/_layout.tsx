@@ -7,6 +7,16 @@ export default function Layout() {
     // TODO: Configure your Stack.Screen components with appropriate options
     <Stack>
       {/* Add your screens here with appropriate names and options */}
+      <Stack.Screen
+        name='index'
+        options={{
+          title: 'Pokédex',
+        }}
+      />
+      <Stack.Screen
+        name='pokemon/[id]'
+        options={{ title: 'Pokemon', headerShown: false }}
+      />
     </Stack>
   );
 }

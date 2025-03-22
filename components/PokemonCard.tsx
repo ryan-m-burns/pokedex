@@ -25,6 +25,7 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
   // - error (type string | null)
 
   // TODO: Extract the Pokemon ID from the URL
+  const pokemonId = pokemon.url.split('/').pop();
 
   // TODO: Implement useEffect to fetch Pokemon details
 
