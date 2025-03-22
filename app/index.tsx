@@ -15,12 +15,13 @@ import { PokemonListResponse } from '../types/pokemon';
 
 export default function HomePage() {
   // TODO: Add state for the Pokemon data and refreshing
-  // Consider storing the complete API response (including next URL) rather than just the Pokemon array
   const [pokemonData, setPokemonData] = useState<PokemonListResponse | null>(
     null
   );
-  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Consider storing the complete API response (including next URL) rather than just the Pokemon array
 
   // TODO: Implement the fetchPokemon function
   // Consider how to handle the initial fetch vs. fetching with a provided URL
@@ -47,7 +48,6 @@ export default function HomePage() {
     setRefreshing(false);
   };
 
-  // TODO: Implement loading more data when the user scrolls to the bottom
   // Use the next URL from your current state to fetch the next page
   const handleLoadMore = async () => {
     if (pokemonData && pokemonData.next) {
@@ -63,19 +63,20 @@ export default function HomePage() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
-
       <View style={styles.header}>
         <Text style={styles.title}>Pokédex</Text>
       </View>
       <FlatList
         data={pokemonData?.results || []}
+        keyExtractor={(item) => item.name}
         renderItem={({ item }) => <PokemonCard pokemon={item} />}
-        keyExtractor={(item) => item.url}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
+        ListFooterComponent={loading ? <ActivityIndicator /> : null}
+        ListFooterComponentStyle={styles.listContent}
       />
     </SafeAreaView>
   );
@@ -84,7 +85,18 @@ export default function HomePage() {
 // TODO: Define your styles
 const styles = StyleSheet.create({
   // Add your styles here
-  container: {},
-  header: {},
-  title: {},
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  header: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  listContent: {
+    padding: 16,
+  },
 });
