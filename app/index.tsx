@@ -90,12 +90,20 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#8EC6FA',
+    color: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
   title: {
-    fontSize: 24,
+    color: '#FFCA0A',
+    textShadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    textShadowColor: '#2e6bb1',
+    textShadowRadius: 2,
+    fontSize: 32,
     fontWeight: 'bold',
   },
   listContent: {

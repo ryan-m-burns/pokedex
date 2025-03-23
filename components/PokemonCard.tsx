@@ -70,6 +70,31 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
     return typeColors[type] || '#000';
   };
 
+  const getBackgroundColor = (type: string) => {
+    const backgroundColor: Record<string, string> = {
+      normal: 'rgba(167 167 121 / 0.5)',
+      fire: 'rgba(238 130 48 / 0.50)',
+      water: 'rgba(99 144 240 / 0.50)',
+      electric: 'rgba(247 208 44 / 0.50)',
+      grass: 'rgba(122 199 76 / 0.50)',
+      ice: 'rgba(150 217 214 / 0.50)',
+      fighting: 'rgba(194 46 40 / 0.50)',
+      poison: 'rgba(163 62 161 / 0.50)',
+      ground: 'rgba(226 191 101 / 0.50)',
+      flying: 'rgba(169 143 243 / 0.50)',
+      psychic: 'rgba(249 85 135 / 0.50)',
+      bug: 'rgba(166 185 26 / 0.50)',
+      rock: 'rgba(182 161 54 / 0.50)',
+      ghost: 'rgba(115 87 151 / 0.50)',
+      dragon: 'rgba(111 53 252 / 0.50)',
+      dark: 'rgba(112 87 70 / 0.50)',
+      steel: 'rgba(183 183 206 / 0.50)',
+      fairy: 'rgba(214 133 173 / 0.50)',
+    };
+
+    return backgroundColor[type] || '#000';
+  };
+
   // TODO: Implement loading state UI
 
   if (loading) {
@@ -91,29 +116,40 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
   return (
     // Wrap with Link component for navigation
     <Link href={`/pokemon/${pokemonId}`} asChild>
-      <TouchableOpacity style={styles.card}>
-        <Image
-          source={{ uri: pokemonDetails?.sprites.front_default }}
-          style={styles.pokemonImage}
-        />
-        <View style={styles.pokemonInfo}>
-          <Text style={styles.pokemonId}>
-            #{pokemonDetails?.id.toString().padStart(3, '0')}
-          </Text>
-          <Text style={styles.pokemonName}>{pokemonDetails?.name}</Text>
+      <TouchableOpacity>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: getBackgroundColor(
+                pokemonDetails?.types[0].type?.name || ''
+              ),
+            },
+          ]}
+        >
+          <Image
+            source={{ uri: pokemonDetails?.sprites.front_default }}
+            style={styles.pokemonImage}
+          />
+          <View style={styles.pokemonInfo}>
+            <Text style={styles.pokemonId}>
+              #{pokemonDetails?.id.toString().padStart(3, '0')}
+            </Text>
+            <Text style={styles.pokemonName}>{pokemonDetails?.name}</Text>
 
-          <View style={styles.typeContainer}>
-            {pokemonDetails?.types.map((type) => (
-              <Text
-                key={type.type?.name}
-                style={[
-                  styles.typeTags,
-                  { backgroundColor: getColor(type.type?.name || '') },
-                ]}
-              >
-                {type.type?.name}
-              </Text>
-            ))}
+            <View style={styles.typeContainer}>
+              {pokemonDetails?.types.map((type) => (
+                <Text
+                  key={type.type?.name}
+                  style={[
+                    styles.typeTags,
+                    { backgroundColor: getColor(type.type?.name || '') },
+                  ]}
+                >
+                  {type.type?.name}
+                </Text>
+              ))}
+            </View>
           </View>
         </View>
       </TouchableOpacity>
