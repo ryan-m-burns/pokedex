@@ -87,10 +87,11 @@ const styles = StyleSheet.create({
   // Add your styles here
   container: {
     flex: 1,
+    backgroundColor: '#DC0A2D57',
   },
   header: {
     padding: 16,
-    backgroundColor: '#8EC6FA',
+    backgroundColor: '#dc0a2d',
     color: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
