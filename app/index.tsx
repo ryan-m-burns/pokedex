@@ -87,10 +87,12 @@ const styles = StyleSheet.create({
   // Add your styles here
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     padding: 16,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   },
   title: {
     fontSize: 24,

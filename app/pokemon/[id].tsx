@@ -16,13 +16,19 @@ import { StatusBar } from 'expo-status-bar';
 
 export default function PokemonDetailScreen() {
   // TODO: Get the id parameter from useLocalSearchParams
-
+  const id = useLocalSearchParams().id;
   // TODO: Add state variables for:
   // - pokemon (type Pokemon | null)
   // - species (type PokemonSpecies | null)
   // - loading (type boolean)
   // - error (type string | null)
   // - activeTab (type string)
+
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+  const [species, setSpecies] = useState<PokemonSpecies | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('about');
 
   // TODO: Implement useEffect to fetch Pokemon data
 
