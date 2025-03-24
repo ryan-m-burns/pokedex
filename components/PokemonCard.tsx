@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderWidth: 0.5,
     borderColor: '#fff',
+    textTransform: 'capitalize',
   },
   typeContainer: {
     flexDirection: 'row',

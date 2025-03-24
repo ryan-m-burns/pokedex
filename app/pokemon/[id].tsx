@@ -166,18 +166,18 @@ export default function PokemonDetailScreen() {
               <Text>
                 {getEnglishFlavorText(species?.flavor_text_entries || [])}
               </Text>
-              <Text style={styles.tabButtonText}>Types</Text>
+              <Text style={styles.typeTextHeader}>Types</Text>
               <View style={styles.typeContainer}>
                 {pokemon?.types?.map((type) => (
-                  <View
+                  <Text
                     key={type.type.name}
                     style={[
                       styles.typeTag,
                       { backgroundColor: getBackgroundColor(type.type.name) },
                     ]}
                   >
-                    <Text style={styles.typeText}>{type.type.name}</Text>
-                  </View>
+                    {type.type.name}
+                  </Text>
                 ))}
               </View>
             </View>
@@ -261,7 +261,6 @@ const styles = StyleSheet.create({
   activeTabButtonText: {
     color: '#000',
   },
-
   bodyContainer: {
     flex: 1,
     padding: 16,
@@ -270,25 +269,27 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
+
   typeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  typeTextHeader: {
+    fontSize: 14,
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: 6,
+  },
   typeTag: {
     fontSize: 12,
-    color: '#fff',
-    paddingHorizontal: 6,
-    paddingTop: 1,
-    paddingBottom: 2,
+    color: 'black',
+    paddingHorizontal: 8,
+    paddingTop: 4,
+    paddingBottom: 4,
     borderRadius: 50,
     marginRight: 4,
     textAlign: 'center',
     fontWeight: 'bold',
-    borderWidth: 0.5,
-    borderColor: '#fff',
-  },
-  typeText: {
-    color: '#fff',
-    fontSize: 12,
+    textTransform: 'capitalize',
   },
 });
