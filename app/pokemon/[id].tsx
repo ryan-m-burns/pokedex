@@ -130,7 +130,14 @@ export default function PokemonDetailScreen() {
                 },
               ]}
             >
-              <Text>About</Text>
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  activeTab === 'about' && styles.activeTabButtonText,
+                ]}
+              >
+                About
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setActiveTab('stats')}
@@ -144,15 +151,22 @@ export default function PokemonDetailScreen() {
                 },
               ]}
             >
-              <Text>Stats</Text>
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  activeTab === 'stats' && styles.activeTabButtonText,
+                ]}
+              >
+                Stats
+              </Text>
             </TouchableOpacity>
           </View>
           {activeTab === 'about' && (
-            <View style={styles.aboutContainer}>
-              <Text style={styles.aboutText}>
+            <View>
+              <Text>
                 {getEnglishFlavorText(species?.flavor_text_entries || [])}
               </Text>
-              <Text>Types</Text>
+              <Text style={styles.tabButtonText}>Types</Text>
               <View style={styles.typeContainer}>
                 {pokemon?.types?.map((type) => (
                   <View
@@ -237,7 +251,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 8,
+    borderBottomWidth: 2,
+    borderBottomColor: '#fff',
   },
+  tabButtonText: {
+    color: 'grey',
+    fontWeight: 'bold',
+  },
+  activeTabButtonText: {
+    color: '#000',
+  },
+
   bodyContainer: {
     flex: 1,
     padding: 16,
