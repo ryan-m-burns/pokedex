@@ -15,6 +15,7 @@ import { getPokemonDetails, getPokemonSpecies } from '../../utils/api';
 import { Pokemon, PokemonSpecies, FlavorTextEntry } from '../../types/pokemon';
 import { StatusBar } from 'expo-status-bar';
 import { getTypeColor, getBackgroundColor } from '../../utils/helpers';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 export default function PokemonDetailScreen() {
   const router = useRouter();
@@ -64,6 +65,14 @@ export default function PokemonDetailScreen() {
       .replace(/\t/g, ' ') // Replace tabs with spaces
       .replace(/\s+/g, ' ') // Remove extra whitespace
       .trim(); // Remove leading/trailing whitespace
+  };
+
+  const convertHeight = (height: number) => {
+    return height / 10;
+  };
+
+  const convertWeight = (weight: number) => {
+    return weight / 10;
   };
 
   if (loading) {
@@ -161,11 +170,38 @@ export default function PokemonDetailScreen() {
               </Text>
             </TouchableOpacity>
           </View>
+          {/* About Tab */}
           {activeTab === 'about' && (
             <View>
-              <Text>
+              <Text style={styles.flavorText}>
                 {getEnglishFlavorText(species?.flavor_text_entries || [])}
               </Text>
+              {/* Height */}
+              <View style={styles.statContainer}>
+                <Text style={styles.statTextHeader}>Height</Text>
+                <Text style={styles.statText}>
+                  {convertHeight(pokemon?.height || 0)} m
+                </Text>
+              </View>
+              {/* Weight */}
+              <View style={styles.statContainer}>
+                <Text style={styles.statTextHeader}>Weight</Text>
+                <Text style={styles.statText}>
+                  {convertWeight(pokemon?.weight || 0)} kg
+                </Text>
+              </View>
+              {/* Abilities */}
+              <View style={styles.statContainer}>
+                <Text style={styles.statTextHeader}>Abilities</Text>
+                <View style={styles.abilitiesContainer}>
+                  {pokemon?.abilities?.map((ability) => (
+                    <Text key={ability.ability.name} style={styles.abilityText}>
+                      {ability.ability.name}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+              {/* Types */}
               <Text style={styles.typeTextHeader}>Types</Text>
               <View style={styles.typeContainer}>
                 {pokemon?.types?.map((type) => (
@@ -181,6 +217,10 @@ export default function PokemonDetailScreen() {
                 ))}
               </View>
             </View>
+          )}
+          {/* Stats Tab */}
+          {activeTab === 'stats' && (
+            <View>{/* TODO: Add stats content */}</View>
           )}
         </View>
       </SafeAreaView>
@@ -238,11 +278,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     width: '100%',
-
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
-
   tabButton: {
     width: '50%',
     textAlign: 'center',
@@ -269,7 +307,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
-
+  flavorText: {
+    fontSize: 12,
+    color: 'black',
+    marginBottom: 16,
+  },
   typeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -290,6 +332,34 @@ const styles = StyleSheet.create({
     marginRight: 4,
     textAlign: 'center',
     fontWeight: 'bold',
+    textTransform: 'capitalize',
+  },
+  statContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 8,
+  },
+  statTextHeader: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: 6,
+    width: 100,
+  },
+  statText: {
+    fontSize: 12,
+    color: 'black',
+  },
+  abilitiesContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: 0,
+    margin: 0,
+    gap: 4,
+  },
+  abilityText: {
+    fontSize: 12,
+    color: 'black',
     textTransform: 'capitalize',
   },
 });
