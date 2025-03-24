@@ -15,7 +15,6 @@ import { getPokemonDetails, getPokemonSpecies } from '../../utils/api';
 import { Pokemon, PokemonSpecies, FlavorTextEntry } from '../../types/pokemon';
 import { StatusBar } from 'expo-status-bar';
 import { getTypeColor, getBackgroundColor } from '../../utils/helpers';
-import { text } from '@fortawesome/fontawesome-svg-core';
 
 export default function PokemonDetailScreen() {
   const router = useRouter();
@@ -73,6 +72,13 @@ export default function PokemonDetailScreen() {
 
   const convertWeight = (weight: number) => {
     return weight / 10;
+  };
+
+  const convertName = (name: string) => {
+    return name
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   };
 
   if (loading) {
@@ -196,7 +202,7 @@ export default function PokemonDetailScreen() {
                 <View style={styles.abilitiesContainer}>
                   {pokemon?.abilities?.map((ability) => (
                     <Text key={ability.ability.name} style={styles.abilityText}>
-                      {ability.ability.name}
+                      {convertName(ability.ability.name)}
                     </Text>
                   ))}
                 </View>
@@ -209,7 +215,7 @@ export default function PokemonDetailScreen() {
                     key={type.type.name}
                     style={[
                       styles.typeTag,
-                      { backgroundColor: getBackgroundColor(type.type.name) },
+                      { backgroundColor: getTypeColor(type.type.name) },
                     ]}
                   >
                     {type.type.name}
@@ -220,7 +226,29 @@ export default function PokemonDetailScreen() {
           )}
           {/* Stats Tab */}
           {activeTab === 'stats' && (
-            <View>{/* TODO: Add stats content */}</View>
+            <View style={styles.statsContainer}>
+              {pokemon?.stats?.map((stat) => (
+                <View key={stat.stat.name} style={styles.statItem}>
+                  <Text style={styles.statTextHeader}>
+                    {convertName(stat.stat.name)}
+                  </Text>
+                  <View style={styles.emptyStatBar}>
+                    <View
+                      style={[
+                        styles.statBar,
+                        {
+                          width: `${(stat.base_stat / 255) * 100}%`,
+                          backgroundColor: getTypeColor(
+                            pokemon?.types[0].type?.name || ''
+                          ),
+                        },
+                      ]}
+                    />
+                  </View>
+                  <Text style={styles.statText}>{stat.base_stat}</Text>
+                </View>
+              ))}
+            </View>
           )}
         </View>
       </SafeAreaView>
@@ -361,5 +389,30 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'black',
     textTransform: 'capitalize',
+  },
+  statsContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '100%',
+    marginBottom: 8,
+  },
+  statItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    width: '100%',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+    gap: 8,
+  },
+  statBar: {
+    width: '100%',
+    height: 10,
+    borderRadius: 5,
+  },
+  emptyStatBar: {
+    width: '60%',
+    backgroundColor: 'lightgrey',
+    height: 10,
+    borderRadius: 5,
   },
 });
